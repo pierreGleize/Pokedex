@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import React, { FunctionComponent } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import PokemonList from './pages/pokemon-list';
+import PokemonsDetail from './pages/pokemon-detail';
+import PageNotFound from './pages/page-not-found';
+import PokemonEdit from './pages/pokemon-edit';
+import PokemonAdd from './pages/pokemon-add';
+import Login from './pages/login';
+import PrivateRoute from './PrivateRoute';
+
+const App: FunctionComponent = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <div className="nav-wrapper teal">
+            <Link to="/" className="brand-logo center">Pokédex</Link>
+          </div>
+        </nav>
+        <Routes>
+          <Route path="/" element={<PrivateRoute element={<PokemonList />} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/pokemons" element={<PrivateRoute element={<PokemonList />} />} />
+          <Route path="/pokemons/add" element={<PrivateRoute element={<PokemonAdd />} />} />
+          <Route path="/pokemons-edit/:id" element={<PrivateRoute element={<PokemonEdit />} />} />
+          <Route path="/pokemons/:id" element={<PrivateRoute element={<PokemonsDetail />} />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
